@@ -41,7 +41,7 @@ export function apiCall(payload) {
         dispatch({
             type: LOAD
         });
-        axios.post('/api/formSubmit', payload)
+        axios.post('/api/form-submit', payload)
             .then((response) => dispatch({
                 type: LOAD_SUCCESS,
                 payload: response.data

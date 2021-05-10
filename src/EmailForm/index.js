@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
-import {useDispatch} from 'react-redux';
-import { handleSubmit } from '../Api/emailSubmitApi'
-import {apiCall} from '../store/modules/api'
+import React, { Fragment, useState } from 'react'
+import { useSelector, useDispatch } from 'react-redux';
+import { apiCall } from '../store/modules/api'
 import './emailForm.scss'
 
 const EmailForm = () => {
+    const submitedData = useSelector(state => state.api.data);
+    const formError = useSelector(state => state.api.error);
     const dispatch = useDispatch();
 
     const [payload, setPayload] = useState({})
@@ -60,69 +61,75 @@ const EmailForm = () => {
 
     return (
         <div data-test={'container'} className='container'>
-            <h2>Sign up for email updates</h2>
-            <p>*Indicates Required Field</p>
-            <div data-test={'TopGrid'} className='SGrid'>
-                <div>
-                    <div>
-                        <span data-test={'fisrtName'} className='Serror'><i>{firstNameError}</i></span><br />
+            {submitedData && submitedData.status ?
+                (<Fragment>
+                    <h2>{submitedData.status}</h2>
+                    <p>{submitedData.message}</p>
+                </Fragment>) :
+                (<Fragment>
+                    <h2>Sign up for email updates</h2>
+                    <p>*Indicates Required Field</p>
+                    <div data-test={'TopGrid'} className='SGrid'>
+                        <div>
+                            <div>
+                                <span data-test={'fisrtName'} className='Serror'><i>{firstNameError}</i></span><br />
                         FIRST NAME*
                         </div>
-                    <input className={firstNameError ? 'SError' : 'SInput'} value={payload.firstName || ''} name='firstName' onChange={handleChange} />
-                </div>
-                <div>
-                    <div><span className='Serror'><i>{lastNameError}</i></span><br />LAST NAME*</div>
-                    <input className={lastNameError ? 'SError' : 'SInput'} value={payload.lastName || ''} name='lastName' onChange={handleChange} />
-                </div>
-                <div>
-                    <div>
-                        <div><span className='Serror'><i>{emailError}</i></span><br />EMAIL ADDRESS*</div>
-                        <input className={lastNameError ? 'SError' : 'SInput'} value={payload.emailAddress || ''} name='emailAddress' onChange={handleChange} />
-                    </div>
-                </div>
-                <div data-test={'selectResident'} style={{paddingTop:'18px'}}>
-                    <div>ORGANIZATION</div>
-                    <input className={'SInput'} value={payload.organization || ''} name='organization' onChange={handleChange} />
-                </div>
-                <div>
-                    <div>EU RESIDENT</div>
-                    <div>
-                        <select className='Sselect' value={payload.euResident || "- SELECT ONE"} name="euResident" onChange={handleChange}>
-                            <option selected value="- SELECT ONE">- SELECT ONE -</option>
-                            <option value="Yes">Yes</option>
-                            <option value="No">No</option>
-                        </select>
-                    </div>
-                </div>
-                <div></div>
-                <div data-test={'advances'} className='selectGrid'>
-                    <div className='SCheckboxDiv'>
-                        <div>
-                            <input name="advances" className={'SCheckbox'} type="checkbox" value={!payload.checkbox || false} onChange={handleChange} />
+                            <input className={firstNameError ? 'SError' : 'SInput'} value={payload.firstName || ''} name='firstName' onChange={handleChange} />
                         </div>
-                        <div className='checkboxLabels'>ADVANCES</div>
-                    </div>
-                    <div className='SCheckboxDiv'>
                         <div>
-                            <input name="alerts" className={'SCheckbox'} type="checkbox" value="alerts" onChange={handleChange} />
+                            <div><span className='Serror'><i>{lastNameError}</i></span><br />LAST NAME*</div>
+                            <input className={lastNameError ? 'SError' : 'SInput'} value={payload.lastName || ''} name='lastName' onChange={handleChange} />
                         </div>
-                        <div className='checkboxLabels'>ALERTS</div>
-                    </div>
-                    <div className='SCheckboxDiv' data-test={'comunications'}>
                         <div>
-                            <input name="comunications" className={'SCheckbox'} type="checkbox" value="communications" onChange={handleChange} />
+                            <div>
+                                <div><span className='Serror'><i>{emailError}</i></span><br />EMAIL ADDRESS*</div>
+                                <input className={lastNameError ? 'SError' : 'SInput'} value={payload.emailAddress || ''} name='emailAddress' onChange={handleChange} />
+                            </div>
                         </div>
-                        <div className='checkboxLabels'>
-                            OTHER COMMUNICATIONS
+                        <div data-test={'selectResident'} style={{ paddingTop: '18px' }}>
+                            <div>ORGANIZATION</div>
+                            <input className={'SInput'} value={payload.organization || ''} name='organization' onChange={handleChange} />
+                        </div>
+                        <div>
+                            <div>EU RESIDENT</div>
+                            <div>
+                                <select className='Sselect' value={payload.euResident || "- SELECT ONE"} name="euResident" onChange={handleChange}>
+                                    <option selected value="- SELECT ONE">- SELECT ONE -</option>
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div></div>
+                        <div data-test={'advances'} className='selectGrid'>
+                            <div className='SCheckboxDiv'>
+                                <div>
+                                    <input name="advances" className={'SCheckbox'} type="checkbox" value={!payload.checkbox || false} onChange={handleChange} />
+                                </div>
+                                <div className='checkboxLabels'>ADVANCES</div>
+                            </div>
+                            <div className='SCheckboxDiv'>
+                                <div>
+                                    <input name="alerts" className={'SCheckbox'} type="checkbox" value="alerts" onChange={handleChange} />
+                                </div>
+                                <div className='checkboxLabels'>ALERTS</div>
+                            </div>
+                            <div className='SCheckboxDiv' data-test={'comunications'}>
+                                <div>
+                                    <input name="comunications" className={'SCheckbox'} type="checkbox" value="communications" onChange={handleChange} />
+                                </div>
+                                <div className='checkboxLabels'>
+                                    OTHER COMMUNICATIONS
                             </div>
 
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-            <div data-test={'button'} className='buttonDiv'>
-                <button className='SsubmitButton' onClick={handleValidation}>SUBMIT</button>
-                <button className='SresetButton' onClick={handleReset}>RESET</button>
-            </div>
+                    <div data-test={'button'} className='buttonDiv'>
+                        <button className='SsubmitButton' onClick={handleValidation}>SUBMIT</button>
+                        <button className='SresetButton' onClick={handleReset}>RESET</button>
+                    </div></Fragment>)}
         </div>
     )
 }
