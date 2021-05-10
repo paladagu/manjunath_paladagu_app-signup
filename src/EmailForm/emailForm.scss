@@ -1,0 +1,91 @@
+$gridColumns: 1fr 1fr;
+$gridRows: 1fr 1fr;
+$gridGap: 14px;
+$border: 3px solid #27b19759;
+$marginTop: 4px;
+$margin: 40px 20px 40px 0px;
+$border: none;
+$cursor: pointer;
+
+.SGrid{
+    display: grid;
+    grid-template-columns: $gridColumns;
+    grid-template-rows: $gridRows;
+    text-align: start;
+    grid-gap: $gridGap;
+    width: 100%;
+}
+.selectGrid{
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-template-rows: $gridRows;
+    text-align: start;
+    grid-gap: $gridGap;
+}
+.SInput{
+    border: $border;
+    margin-top: 8px;
+    height: 40px;
+    width: 80%;
+}
+.SError{
+    border: $border;
+    margin-top: 8px;
+    height: 40px;
+    width: 80%;
+    border: 3px solid #ff8787;
+    background: #ffe2e2;
+}
+.Serror{
+    color: red;
+    font-size: 12px;
+}
+.Sselect{
+    border: $border;
+    margin-top: 10px;
+    height: 46px;
+    width: 200px;
+}
+
+.SsubmitButton {
+    display: block;
+    margin: $margin;
+    width: 145px;
+    height: 40px;
+    border-radius: 27px;
+    cursor: $cursor;
+    background: #984298;
+    color: white;
+    border: $border;
+}
+.SresetButton{
+    display: block;
+    margin: $margin;
+    width: 145px;
+    height: 40px;
+    border-radius: 27px;
+    cursor: $cursor;
+    background: #fff;
+    color: black;
+    border: $border;
+}
+.SCheckboxDiv{
+    display: grid; 
+    grid-template-columns: 0fr auto;
+}
+.SCheckbox{
+    border: $border;
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+}
+.buttonDiv{
+    display: flex;
+}
+.checkboxLabels{
+    margin-top: $marginTop;
+}
+.container{
+    margin-left: 20px; 
+    text-align: start;
+}
